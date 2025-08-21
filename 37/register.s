@@ -14,10 +14,14 @@ main:
 	addi	s0,sp,32
 	li	a5,11
 	sw	a5,-20(s0)
+	li	s1,10
+	addiw	a5,s1,1
+	sext.w	s1,a5
 	lw	a5,-20(s0)
 	addiw	a5,a5,1
 	sw	a5,-20(s0)
-	nop
+	mv	a5,s1
+	mv	a0,a5
 	ld	s0,24(sp)
 	ld	s1,16(sp)
 	addi	sp,sp,32
