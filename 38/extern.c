@@ -2,7 +2,7 @@
 
 extern int a;
 void foo();
-extern void foo();          // not necessary
+// extern void foo();          // not necessary
 
 void main() {
     a+=1;
