@@ -1,1 +1,8 @@
+#include <stdio.h>
+
 int a=10;
+
+void foo() {
+    a+=1;
+    printf("foo: %d\n",a);
+}
