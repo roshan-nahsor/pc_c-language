@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 int a=10;
+// static int a=10;         //won't work
 
 void foo() {
     char b=3;

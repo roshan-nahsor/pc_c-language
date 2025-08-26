@@ -8,7 +8,6 @@ void bar() {
     b+=1;
     printf("bar: %d\n",b);
 }
-// extern void foo();          // not necessary
 
 void main() {
     a+=1;
