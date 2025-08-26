@@ -3,19 +3,26 @@
 extern int a;
 void foo();
 
-void bar() {
-    static char b=3;
-    b+=1;
-    printf("bar: %d\n",b);
-}
+void bar();
+// void bar() {
+//     static char b=3;
+//     b+=1;
+//     printf("bar: %d\n",b);
+// }
 
 void main() {
-    a+=1;
-    printf("main: %d\n",a);
+    // a+=1;
+    // printf("main: %d\n",a);
 
-    foo();
-    bar();
+    // foo();
+    // bar();
     
-    foo();
+    // foo();
+    // bar();
+
+
+
+
+    bar();
     bar();
 }
