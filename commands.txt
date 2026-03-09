@@ -1,0 +1,91 @@
+riscv64-unknown-elf-gcc -O0 -ggdb -nostdlib -march=rv32i -mabi=ilp32 -Wl,-Tm.ld m.s
+
+    Optimization Options
+        These options control various sorts of optimizations.
+
+        Without any optimization option, the compiler's goal is to reduce the cost of compilation and to make debugging produce the expected results.  Statements are
+        independent: if you stop the program with a breakpoint between statements, you can then assign a new value to any variable or change the program counter to any
+        other statement in the function and get exactly the results you expect from the source code.
+
+        Turning on optimization flags makes the compiler attempt to improve the performance and/or code size at the expense of compilation time and possibly the ability to
+        debug the program.
+
+        The compiler performs optimization based on the knowledge it has of the program.  Compiling multiple files at once to a single output file mode allows the compiler
+        to use information gained from all of the files when compiling each of them.
+
+        Not all optimizations are controlled directly by a flag.  Only optimizations that have a flag are listed in this section.
+
+        Most optimizations are completely disabled at -O0 or if an -O level is not set on the command line, even if individual optimization flags are specified.
+        Similarly, -Og suppresses many optimization passes.
+
+        Depending on the target and how GCC was configured, a slightly different set of optimizations may be enabled at each -O level than those listed here.  You can
+        invoke GCC with -Q --help=optimizers to find out the exact set of optimizations that are enabled at each level.
+
+        -O
+
+        -O0 Reduce compilation time and make debugging produce the expected results.  This is the default.
+
+    Debugging Options
+        -ggdb
+            Produce debugging information for use by GDB.  This means to use the most expressive format available (DWARF, stabs, or the native format if neither of those
+            are supported), including GDB extensions if at all possible.
+
+    Machine-Dependent Options
+        RISC-V Options
+            -march=name
+                Specify the name of the target architecture and, optionally, one or more feature modifiers.  This option has the form -march=arch{+[no]feature}*.
+
+                The table below summarizes the permissible values for arch and the features that they enable by default:
+
+                arch value : Architecture : Includes by default
+                armv8-a : Armv8-A : +fp, +simd
+                armv8.1-a : Armv8.1-A : armv8-a, +crc, +lse, +rdma
+                armv8.2-a : Armv8.2-A : armv8.1-a
+                armv8.3-a : Armv8.3-A : armv8.2-a
+                armv8.4-a : Armv8.4-A : armv8.3-a, +fp16fml, +dotprod
+                armv8.5-a : Armv8.5-A : armv8.4-a, +sb, +ssbs, +predres
+                armv8.6-a : Armv8.6-A : armv8.5-a, +bf16, +i8mm
+
+                The value native is available on native AArch64 GNU/Linux and causes the compiler to pick the architecture of the host system.  This option has no effect if
+                the compiler is unable to recognize the architecture of the host system,
+
+                The permissible values for feature are listed in the sub-section on aarch64-feature-modifiers,,-march and -mcpu Feature Modifiers.  Where conflicting feature
+                modifiers are specified, the right-most feature is used.
+
+                GCC uses name to determine what kind of instructions it can emit when generating assembly code.  If -march is specified without either of -mtune or -mcpu also
+                being specified, the code is tuned to perform well across a range of target processors implementing the target architecture.
+
+            -mabi=ABI-string
+                Specify integer and floating-point calling convention.  ABI-string contains two parts: the size of integer types and the registers used for floating-point
+                types.  For example -march=rv64ifd -mabi=lp64d means that long and pointers are 64-bit (implicitly defining int to be 32-bit), and that floating-point values
+                up to 64 bits wide are passed in F registers.  Contrast this with -march=rv64ifd -mabi=lp64f, which still allows the compiler to generate code that uses the F
+                and D extensions but only allows floating-point values up to 32 bits long to be passed in registers; or -march=rv64ifd -mabi=lp64, in which no floating-point
+                arguments will be passed in registers.
+
+                The default for this argument is system dependent, users who want a specific calling convention should specify one explicitly.  The valid calling conventions
+                are: ilp32, ilp32f, ilp32d, lp64, lp64f, and lp64d.  Some calling conventions are impossible to implement on some ISAs: for example, -march=rv32if -mabi=ilp32d
+                is invalid because the ABI requires 64-bit values be passed in F registers, but F registers are only 32 bits wide.  There is also the ilp32e ABI that can only
+
+    Linker Options
+        -nostdlib
+           Do not use the standard system startup files or libraries when linking.  No startup files and only the libraries you specify are passed to the linker, and
+           options specifying linkage of the system libraries, such as -static-libgcc or -shared-libgcc, are ignored.
+
+           The compiler may generate calls to "memcmp", "memset", "memcpy" and "memmove".  These entries are usually resolved by entries in libc.  These entry points
+           should be supplied through some other mechanism when this option is specified.
+
+           One of the standard libraries bypassed by -nostdlib and -nodefaultlibs is libgcc.a, a library of internal subroutines which GCC uses to overcome shortcomings
+           of particular machines, or special needs for some languages.
+
+           In most cases, you need libgcc.a even when you want to avoid other standard libraries.  In other words, when you specify -nostdlib or -nodefaultlibs you should
+           usually specify -lgcc as well.  This ensures that you have no unresolved references to internal GCC library subroutines.  (An example of such an internal
+           subroutine is "__main", used to ensure C++ constructors are called.)
+    
+        -Wl,option
+           Pass option as an option to the linker.  If option contains commas, it is split into multiple options at the commas.  You can use this syntax to pass an
+           argument to the option.  For example, -Wl,-Map,output.map passes -Map output.map to the linker.  When using the GNU linker, you can also get the same effect
+           with -Wl,-Map=output.map.
+        
+        -T script
+           Use script as the linker script.  This option is supported by most systems using the GNU linker.  On some targets, such as bare-board targets without an
+           operating system, the -T option may be required when linking to avoid references to undefined symbols.
