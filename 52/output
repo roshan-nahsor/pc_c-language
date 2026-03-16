@@ -1,0 +1,17 @@
+>>> p a_short
+$10 = {[0] = 10, [1] = 20, [2] = 30, [3] = 40, [4] = 50}
+>>> p a_int
+$3 = {[0] = 11, [1] = 21, [2] = 31, [3] = 41, [4] = 51}
+>>> p &a_short
+$4 = (short (*)[5]) 0x7fffffffda96
+>>> p &a_short[0]
+$5 = (short *) 0x7fffffffda96
+>>> p &a_int
+$7 = (int (*)[5]) 0x7fffffffdaa0
+>>> p &a_int[0]
+$6 = (int *) 0x7fffffffdaa0
+
+>>> p &a_short[1]
+$9 = (short *) 0x7fffffffda98
+>>> p &a_int[1]
+$8 = (int *) 0x7fffffffdaa4
